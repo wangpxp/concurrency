@@ -23,7 +23,9 @@ public class ConcurrencyTest {
         ExecutorService executorService = Executors.newCachedThreadPool();
         // 定义信号量，信号量的数量和线程数相同
         final Semaphore semaphore = new Semaphore(threadTotal);
-        // 定义CountDownLatch
+        // 定义CountDownLatch,CountDownLatch是一个同步工具类，用来协调多个线程之间的同步，或者说起到线程之间的通信（而不是用作互斥的作用）。
+        //
+        // CountDownLatch能够使一个线程在等待另外一些线程完成各自工作之后，再继续执行。使用一个计数器进行实现。
         final CountDownLatch countDownLatch = new CountDownLatch(clientTotal);
 
         for (int i = 0; i < clientTotal; i++) {
@@ -35,10 +37,10 @@ public class ConcurrencyTest {
                 } catch (InterruptedException e) {
                     log.error("exception", e);
                 }
-                countDownLatch.countDown();
+                countDownLatch.countDown(); //countDownLatch计数器减一
             });
         }
-        countDownLatch.await();
+        countDownLatch.await(); // 计数器减到0， countDownLatch的await线程可以被唤醒，在此之前等待
         log.info("count:{}", count);
     }
 
