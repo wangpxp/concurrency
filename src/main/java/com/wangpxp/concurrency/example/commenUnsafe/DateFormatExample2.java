@@ -1,6 +1,6 @@
 package com.wangpxp.concurrency.example.commenUnsafe;
 
-import com.wangpxp.concurrency.annotations.NotThreadSafe;
+import com.wangpxp.concurrency.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.ParseException;
@@ -12,9 +12,8 @@ import java.util.concurrent.Semaphore;
 
 
 @Slf4j
-@NotThreadSafe
-public class DateFormatExample1 {
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+@ThreadSafe
+public class DateFormatExample2 {
 
     //请求总数
     public static int clientTotal = 5000;
@@ -48,6 +47,7 @@ public class DateFormatExample1 {
     }
 
     private static void update() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         try {
             simpleDateFormat.parse("20191228");
         } catch (ParseException e) {

@@ -2,9 +2,10 @@ package com.wangpxp.concurrency.example.commenUnsafe;
 
 import com.wangpxp.concurrency.annotations.NotThreadSafe;
 import lombok.extern.slf4j.Slf4j;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,8 +14,8 @@ import java.util.concurrent.Semaphore;
 
 @Slf4j
 @NotThreadSafe
-public class DateFormatExample1 {
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+public class DateFormatExample3 {
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyyMMdd");
 
     //请求总数
     public static int clientTotal = 5000;
@@ -48,10 +49,6 @@ public class DateFormatExample1 {
     }
 
     private static void update() {
-        try {
-            simpleDateFormat.parse("20191228");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        DateTime.parse("20191228", dateTimeFormatter).toDate();
     }
 }
