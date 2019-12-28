@@ -1,4 +1,4 @@
-package com.wangpxp.concurrency.singleton;
+package com.wangpxp.concurrency.example.singleton;
 
 import com.wangpxp.concurrency.annotations.NotThreadSafe;
 
