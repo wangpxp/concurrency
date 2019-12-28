@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 //线程安全，所有对象都按顺序执行
 public class SynchronizedExample2 {
 
-    // 修饰一个代码块，作用范围是整个代码块，作用对象是调用对象
+    // 修饰一个静态代码块，作用范围是整个代码块，作用对象是整个对象
     public static void test1(int j) {
         synchronized (SynchronizedExample2.class) { //这个括号的范围
             for (int i = 0; i < 10; i++) {
@@ -20,7 +20,7 @@ public class SynchronizedExample2 {
         }
     }
 
-    // 修饰一个方法,作用范围时整个方法，作用对象是调用对象
+    // 修饰一个静态方法,作用范围时整个方法，作用对象是整个对象
     public static synchronized void test2() { //这个括号的范围
         for (int i = 0; i < 10; i++) {
             log.info("tes1 - {}", i);
