@@ -1,26 +1,22 @@
-package com.wangpxp.concurrency.example.syncContainer;
+package com.wangpxp.concurrency.example.concurrent;
 
-import com.google.common.collect.Sets;
 import com.wangpxp.concurrency.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
 import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.*;
 
 @Slf4j
 @ThreadSafe
-public class CollectionsExample2 {
+// 批量操作不能保证安全
+public class ConcurrentSkipListSetExample {
     //请求总数
     public static int clientTotal = 5000;
 
     // 同时并发执行的线程数
     public static int threadTotal = 200;
 
-    public static Set<Object> set = Collections.synchronizedSet(Sets.newHashSet());
+    public static Set<Integer> set = new ConcurrentSkipListSet<>();
 
     public static void main(String[] args) throws InterruptedException {
         // 定义线程池
@@ -45,7 +41,7 @@ public class CollectionsExample2 {
                 countDownLatch.countDown(); //countDownLatch计数器减一
             });
         }
-        countDownLatch.await(); // 计数器减到0， countDownLatch的await线程可以被唤醒，在此之前等待
+        countDownLatch.await(); // 计数器set减到0， countDownLatch的await线程可以被唤醒，在此之前等待
         log.info("size:{}", set.size());
     }
 

@@ -1,26 +1,21 @@
-package com.wangpxp.concurrency.example.syncContainer;
+package com.wangpxp.concurrency.example.concurrent;
 
-import com.google.common.collect.Sets;
 import com.wangpxp.concurrency.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
+import java.util.List;
+import java.util.concurrent.*;
 
 @Slf4j
 @ThreadSafe
-public class CollectionsExample2 {
+public class CopyOnWriteArrayListExample {
     //请求总数
     public static int clientTotal = 5000;
 
     // 同时并发执行的线程数
     public static int threadTotal = 200;
 
-    public static Set<Object> set = Collections.synchronizedSet(Sets.newHashSet());
+    public static List<Integer> list = new CopyOnWriteArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
         // 定义线程池
@@ -33,11 +28,10 @@ public class CollectionsExample2 {
         final CountDownLatch countDownLatch = new CountDownLatch(clientTotal);
 
         for (int i = 0; i < clientTotal; i++) {
-            final int count = i;
             executorService.execute(() -> {
                 try {
                     semaphore.acquire(); // 信号量执行
-                    add(count);
+                    add();
                     semaphore.release(); // 信号量释放
                 } catch (InterruptedException e) {
                     log.error("exception", e);
@@ -46,10 +40,10 @@ public class CollectionsExample2 {
             });
         }
         countDownLatch.await(); // 计数器减到0， countDownLatch的await线程可以被唤醒，在此之前等待
-        log.info("size:{}", set.size());
+        log.info("size:{}", list.size());
     }
 
-    private static void add(int i) {
-        set.add(i);
+    private static void add() {
+        list.add(1);
     }
 }
